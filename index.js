@@ -1,18 +1,20 @@
 const express = require('express');
 const  mongoose  = require('mongoose');
 
+require('dotenv').config();
 const apiRoutes = require('./src/api.js')
 
 const app = express();
-mongoose.set('strictQuery', false);
+
 app.use(apiRoutes)
 app.use(express.json());
-const port = 3000;
+const port = process.env.PORT||3000;
 
 app.get('', (req, res)=>{
     res.send('api works')
 })
- uri ='mongodb+srv://ernierous:cuantum47@cluster0.3m7828i.mongodb.net/agenda?retryWrites=true&w=majority'
+
+const uri = process.env.MONGODB
 
  mongoose.connect(uri, async (err,)=>{
     //error-first callback
