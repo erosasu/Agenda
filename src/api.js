@@ -16,10 +16,17 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({storage})
+function filter(req, file, callback){
+    const isValid = file.mimetype == 'image/jpeg'
+    callback(null, isValid)
+}
+
+
+const upload = multer({storage, fileFilter: filter })
 
 const contactoControlles = require('./controllers/contactos.js')
-const usuarioControlles = require('./controllers/usuarios.js')
+const usuarioControlles = require('./controllers/usuarios.js');
+const { filtrar_correo } = require('./controllers/contactos.js');
 
 
 
@@ -37,6 +44,8 @@ router.delete('/delete',auth, express.json(), contactoControlles.eliminarContact
 //usuario
 router.post('/registro',express.json(), usuarioControlles.registro)
 router.post('/login',express.json(), usuarioControlles.login)
+
+
 
 
 

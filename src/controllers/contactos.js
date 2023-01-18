@@ -27,9 +27,13 @@ module.exports={
     },
     crear:(req, res)=>{
             const data = req.body;
+            console.log(req.file)
+            data.photoUrl=req.file.filename
             data.userId= req.user._id
-            contacto.create(data).then(response =>{
-            res.send(response);}).catch(err=>{
+            contacto.create(data)
+            .then(response =>{
+            res.send(response);})
+            .catch(err=>{
                 res.status(401).send('ya existe un contacto con ese nombre en tu agenda')
             })
         },

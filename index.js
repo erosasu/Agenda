@@ -6,12 +6,14 @@ const apiRoutes = require('./src/api.js')
 
 const app = express();
 
+app.use('/fotos', express.static(__dirname + '/archivos'))
+app.use('/assets', express.static(__dirname + '/assets'))
 app.use(apiRoutes)
 app.use(express.json());
 const port = process.env.PORT||3000;
 
 app.get('', (req, res)=>{
-    res.send('api works')
+    res.sendFile(__dirname+'/src/views/index.html')
 })
 
 const uri = process.env.MONGODB

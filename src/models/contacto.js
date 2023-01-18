@@ -5,9 +5,9 @@ const contactoSchema = new mongoose.Schema({
     telefono: {type: Number, default: '0'},
     correo: {type: String},
     status: {type: Number, default: 1},
-    userId: {type: String}
+    userId: {type: String},
+    photoUrl: {type:String}
 
-    
 } )
 
 module.exports = mongoose.model('contactos', contactoSchema)
