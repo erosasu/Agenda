@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 const modelo = require('../models/usuario');
 require('dotenv').config()
 
-const crypto = require('crypto')
+const crypto = require('crypto');
+const { domainToASCII } = require('url');
 
 function hashPassword(pwd){
     return crypto.scryptSync(pwd, 'salt', 24)
@@ -40,13 +41,24 @@ module.exports={
 
     registro:(req, res)=>{
         const data = req.body;
+        console.log('datos: ', req.body)
+        if(!data.password||!data.correo||!data.nombre){
+            res.status(400).send('Faltaron datos')
+            return;
+        }
+
         const hasedPassword = hashPassword(data.password);
         data.password = hasedPassword;
         modelo.create(data).then(response =>{
-            delete response.password
-            res.send(response);
+            const {_id, nombre, correo } = response
+            res.render('confirmacion', {nombre, correo});
         }).catch(err=>{
             console.log(err)
             res.sendStatus(400)
         })
-}   }
+    },
+    formRegistro:(req, res)=>{
+        res.render('registro');
+    }   
+
+}
