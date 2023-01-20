@@ -50,11 +50,11 @@ module.exports={
         const hasedPassword = hashPassword(data.password);
         data.password = hasedPassword;
         modelo.create(data).then(response =>{
-            const {_id, nombre, correo } = response
+            const {_id, nombre, correo } = response;
             res.render('confirmacion', {nombre, correo});
         }).catch(err=>{
             console.log(err)
-            res.sendStatus(400)
+            res.render('confirmacion', {error:true, correo: data.correo})
         })
     },
     formRegistro:(req, res)=>{
